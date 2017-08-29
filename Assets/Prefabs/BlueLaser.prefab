@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 212452603649717218}
   - component: {fileID: 50182210621137906}
   - component: {fileID: 61872196359331976}
-  m_Layer: 0
+  - component: {fileID: 114538816646638836}
+  m_Layer: 11
   m_Name: BlueLaser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,6 +88,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.37}
   m_EdgeRadius: 0
+--- !u!114 &114538816646638836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911267351030400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527228291d52aa640a592718b37db0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
 --- !u!212 &212452603649717218
 SpriteRenderer:
   m_ObjectHideFlags: 1

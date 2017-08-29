@@ -11,32 +11,22 @@ public class EnemySpawner : MonoBehaviour {
 	public float speed =5f;
 	public float padding = 1f;
 
+	public float spawnDelay = 0.5f;
+
 	private bool movingRight = true;
 	private float xmin;
 	private float xmax;
 
 	void Start () {
 		float distanceToCamera = transform.position.z - Camera.main.transform.position.z;
-		Vector3 leftBoundary = Camera.main.ViewportToWorldPoint(new Vector3(0,0, distanceToCamera));
-		Vector3 rightBoundary = Camera.main.ViewportToWorldPoint(new Vector3(1,0, distanceToCamera));
-		xmin = leftBoundary.x;
-		xmax = rightBoundary.x;
-		foreach (Transform child in transform) {
-			GameObject enemy = Instantiate (enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
-			enemy.transform.parent = child;
+		Vector3 leftBoundary = Camera.main.ViewportToWorldPoint (new Vector3 (0, 0, distanceToCamera));
+		Vector3 rightBoundary = Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, distanceToCamera));
+		xmin = leftBoundary.x + padding;
+		xmax = rightBoundary.x - padding;
 
-			float distance = transform.position.z - Camera.main.transform.position.z;
-			Vector3 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
-			Vector3 rightmost = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance));;
-			xmin = leftmost.x + padding;
-			xmax = rightmost.x - padding;
+		SpawnEnemies ();
 		}
-	}
-
-	public void OnDrawGizmos(){
-		Gizmos.DrawWireCube(transform.position, new Vector3(width, height));
-	}
-	
+		
 	// Update is called once per frame
 	void Update () {
 		if (movingRight) {
@@ -52,6 +42,52 @@ public class EnemySpawner : MonoBehaviour {
 		}
 		else if (rightEdgeOfFormation > xmax) {
 			movingRight = false;
+		}
+	
+		if (AllMembersDead ()) {
+			SpawnUntilFormationFull ();
+		}
+	}
+
+	public void OnDrawGizmos(){
+		Gizmos.DrawWireCube(transform.position, new Vector3(width, height));
+	}
+
+	bool AllMembersDead(){
+		foreach(Transform childPositionGameObject in transform){
+			if (childPositionGameObject.childCount > 0) {
+				return false;
+			} 
+		}
+		return true;
+	}
+
+	Transform NextFreePostition() {
+		foreach(Transform childPositionGameObject in transform){
+			if (childPositionGameObject.childCount == 0) {
+				return childPositionGameObject;
+			} 
+		}
+		return null;
+	}
+
+	void SpawnEnemies()
+	{
+		foreach (Transform child in transform) {
+			GameObject enemy = Instantiate (enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
+			enemy.transform.parent = child;
+		}
+	}
+
+	void SpawnUntilFormationFull()
+	{
+		Transform freePosition = NextFreePostition ();
+		if (freePosition) {
+			GameObject enemy = Instantiate (enemyPrefab, freePosition.position, Quaternion.identity) as GameObject;
+			enemy.transform.parent = freePosition;
+		}
+		if (NextFreePostition()){
+		Invoke ("SpawnUntilFormationFull", spawnDelay);
 		}
 	}
 }
