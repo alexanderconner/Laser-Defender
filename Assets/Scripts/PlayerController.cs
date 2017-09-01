@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour {
 	float xmin;
 	float xmax;
 
+	public AudioClip shot;
+	public AudioClip hit;
+	public AudioClip death;
+
 	private Vector3 pos;
 	// Use this for initialization
 	void Start () {
@@ -61,11 +65,17 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider) {
 		Debug.Log ("Player Hit by Missile");
 		Projectile missile = collider.gameObject.GetComponent<Projectile> ();
+
 		if (missile) {
 			health -= missile.getDamage ();
 			missile.Hit();
+			AudioSource.PlayClipAtPoint (hit, transform.position);
 			if (health <= 0) {
+				AudioSource.PlayClipAtPoint (death, transform.position);
+				LevelManager man = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
+				man.LoadLevel ("Win");
 				Destroy (gameObject);
+
 			}
 		} else { Debug.Log ("Player collision"); 
 		}
@@ -76,6 +86,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject laser = Instantiate (projectile, startPosition, Quaternion.identity) as GameObject;
 		//laser.transform.parent = child;
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
+		AudioSource.PlayClipAtPoint (shot, transform.position);
 	}
 
 

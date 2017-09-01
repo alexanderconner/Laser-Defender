@@ -148,6 +148,10 @@ MonoBehaviour:
   projectileSpeed: 10
   firingRate: 0.2
   shotsPerSecond: 0.5
+  scoreValue: 150
+  shot: {fileID: 8300000, guid: 037dbb14368fbd94481295c32f5d3bb4, type: 3}
+  hit: {fileID: 8300000, guid: 05d8496c42ac5994fa8f033cc3ccf11a, type: 3}
+  death: {fileID: 8300000, guid: 93e40ad179701884186d887ae9727019, type: 3}
 --- !u!212 &212222453830664382
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -177,8 +181,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -234506339
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fe97b540c14d0e44ea9d45fddc4bc415, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
